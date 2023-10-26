@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Classifier</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Image Classifier</h1>
+
+    <form id="upload-form" method="POST" enctype="multipart/form-data">
+        <input type="file" id="image" name="file" accept="image/*">
+        <input type="submit" value="Predict">
+    </form>
+
+    <p id="prediction"></p>
+
+    <script>
+        $("#upload-form").submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: 'http://localhost:5000/predict',
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    $("#prediction").text("Predicted class: " + data.predicted_class);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+</body>
+</html>
